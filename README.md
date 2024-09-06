@@ -66,12 +66,16 @@ The following fields will be automatically filled by the software:
 
 # License
 
-This software is distributed under the GNU GPL v3. A copy of this license is available here.
+This software is distributed under the [GNU GPL v3](https://www.gnu.org/licenses/gpl-3.0.en.html). 
+
+> [A copy of this license is available here](LICENSE).
 
 # Future Improvements
 
-- [ ] Improve UI
+- [x] Improve UI
 - [ ] Cleanup the Code
+- [ ] Implement better Error Handling
+- [ ] Add dialogs for Error Handling
 - [ ] Provide binaries for Windows
 - [ ] Provide binaries for Linux
 
