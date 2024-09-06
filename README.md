@@ -5,9 +5,8 @@ your income for said month.
 
 ## Why?
 
-Some companies have a policy that your PTO calculations use a fixed amount of hours, while your monthly working hours may 
-vary. This variation happens due to the number of business days changing each month, while your income has a fixed monthly
-value.
+Some companies use a fixed amount of hours to calculate your PTO, while your monthly working hours may vary.
+This variation happens due to the number of business days changing each month, while your income has a fixed monthly value.
 
 > Example:
 > 
@@ -51,6 +50,11 @@ The following fields will be automatically filled by the software:
    2. This calculation is based on the amount of daily working hours and how many monthly hours are considered for the PTO calculation.
 
 ---
+
+# Requirements
+
+* [.NET 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
+* [AvaloniaUI](https://avaloniaui.net/)
 
 # License
 
