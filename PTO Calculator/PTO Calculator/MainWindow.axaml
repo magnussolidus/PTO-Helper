@@ -8,7 +8,7 @@
         SizeToContent="WidthAndHeight"
         WindowState="Normal">
     <Grid 
-        ShowGridLines="True" 
+        ShowGridLines="False" 
         Margin="5"
         ColumnDefinitions="250, Auto, Auto"
         RowDefinitions="50, Auto, Auto, Auto, Auto, Auto,Auto,Auto,Auto">
