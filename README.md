@@ -3,6 +3,8 @@
 This project is about a simple software to help you calculate if taking a PTO on a particular month will increase/decrease 
 your income for said month.
 
+![PTO Helper software screenshot](/resources/software.png)
+
 ## Why?
 
 Some companies use a fixed amount of hours to calculate your PTO, while your monthly working hours may vary.
