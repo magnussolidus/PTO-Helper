@@ -31,6 +31,8 @@
             A simple software to help you calculate if the PTO is gonna affect your payment
         </TextBlock>
         
+        <!-- 1st row  -->
+        
         <Label 
             Grid.Row="1" Grid.Column="0"
             Margin="5">
@@ -55,6 +57,35 @@
             Text="8"/>
         
         <Label 
+            Grid.Row="1" Grid.Column="2"
+            Margin="5">
+            Pick your Month:
+        </Label>
+        <DatePicker 
+            Grid.Row="2" Grid.Column="2"
+            DayVisible="False"
+            SelectedDateChanged="UpdateMonthWorkingHoursLabel"
+            Margin="5">
+        </DatePicker>
+        
+        <!-- 2nd row -->
+        
+        <Label
+            Grid.Row="3" Grid.Column="0"
+            Name="MonthWorkingDaysLabel"
+            Margin="5">
+            Monthly Working Days:
+        </Label>
+        <TextBox
+            Grid.Row="4" Grid.Column="0"
+            IsReadOnly="true"
+            Focusable="False"
+            Margin="5"
+            Name="MonthlyWorkingDaysResult">
+            Result goes Here
+        </TextBox>
+        
+        <Label 
             Grid.Row="3" Grid.Column="1"
             Margin="5">
             PTO Days Count
@@ -74,47 +105,13 @@
         <TextBox
             Grid.Row="4" Grid.Column="2"
             IsReadOnly="true"
+            Focusable="False"
             Name="MonthlyWorkingHoursResult"
             Margin="5">
             Result goes Here
         </TextBox>
         
-        <Label
-            Grid.Row="3" Grid.Column="0"
-            Name="MonthWorkingDaysLabel"
-            Margin="5">
-            Monthly Working Days:
-        </Label>
-        <TextBox
-            Grid.Row="4" Grid.Column="0"
-            IsReadOnly="true"
-            Margin="5"
-            Name="MonthlyWorkingDaysResult">
-            Result goes Here
-        </TextBox>
-        
-        <Label 
-            Grid.Row="1" Grid.Column="2"
-            Margin="5">
-            Pick your Month:
-        </Label>
-        <DatePicker 
-            Grid.Row="2" Grid.Column="2"
-            DayVisible="False"
-            SelectedDateChanged="UpdateMonthWorkingHoursLabel"
-            Margin="5">
-        </DatePicker>
-        
-        <Label Grid.Row="5" Grid.Column="1"
-               Margin="5">
-            Your PTO Hourly Rate:
-        </Label>
-        <TextBox Grid.Row="6" Grid.Column="1"
-                 Margin="5"
-                 Name="PtoHourlyRateTextBox"
-                 IsReadOnly="True">
-            Value Goes Here
-        </TextBox>
+        <!-- 3rd row -->
         
         <Label Grid.Row="5" Grid.Column="0"
                Margin="5">
@@ -123,7 +120,20 @@
         <TextBox Grid.Row="6" Grid.Column="0"
                  Margin="5"
                  Name="HourlyRateTextBox"
-                 IsReadOnly="True">
+                 IsReadOnly="True"
+                 Focusable="False">
+            Value Goes Here
+        </TextBox>
+        
+        <Label Grid.Row="5" Grid.Column="1"
+               Margin="5">
+            Your PTO Hourly Rate:
+        </Label>
+        <TextBox Grid.Row="6" Grid.Column="1"
+                 Margin="5"
+                 Name="PtoHourlyRateTextBox"
+                 IsReadOnly="True"
+                 Focusable="False">
             Value Goes Here
         </TextBox>
         
@@ -138,11 +148,19 @@
                        Text="0">
         </MaskedTextBox>
         
+        <!-- 4th row -->
+        
+        <Label Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2"
+               Margin="5"
+               Name="ExpectedIncomeLabel">
+            Expected Income:
+        </Label>
+        
         <Button 
-            Grid.Row="8" Grid.Column="0" 
+            Grid.Row="7" Grid.Column="2" 
             Margin="5"
             Background="Salmon"
-            Click="Plem">
+            Click="Calculate">
             Calculate
         </Button>
     </Grid>

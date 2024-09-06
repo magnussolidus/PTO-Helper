@@ -8,101 +8,86 @@ namespace PTO_Calculator;
 
 public partial class MainWindow : Window
 {
+    private PtoHelper _helper;
+    private bool _hasDate;
     public MainWindow()
     {
         InitializeComponent();
         SetCulture();
     }
 
-    private void SetCulture()
+    private static void SetCulture()
     {
         CultureInfo.DefaultThreadCurrentCulture = CultureInfo.CreateSpecificCulture("en-US");
     }
 
-    public void Plem(object sender, RoutedEventArgs args)
+    private bool SaveInputData()
     {
-        if (string.IsNullOrWhiteSpace(Income.Text))
-        {
-            Console.WriteLine("No Income data");
-            return;
-        }
-
-        if (string.IsNullOrWhiteSpace(DailyHours.Text))
-        {
-            Console.WriteLine("No Daily Hours data");
-            return;
-        }
+        var monthlyIncome = _helper.InsertText(Income.Text, TextValidationEnum.Income);
+        var dailyHours = _helper.InsertText(DailyHours.Text, TextValidationEnum.DailyHours);
+        var ptoDays = _helper.InsertText(PtoDays.Text, TextValidationEnum.PtoDays);
+        var monthlyPtoHours = _helper.InsertText(PtoMonthlyHours.Text, TextValidationEnum.PtoMonthlyHours);
         
-        var monthlyIncome = int.Parse(SanitizeMaskedInput(Income.Text));
-        var dailyHours = int.Parse(SanitizeMaskedInput(DailyHours.Text));
-        
-        
-        Debug.WriteLine($"Plem! Income: {Income.Text}\nDaily Hours: {DailyHours.Text}");
+        return monthlyPtoHours && dailyHours && ptoDays && monthlyIncome;
     }
+    
+    public void Calculate(object sender, RoutedEventArgs args)
+    {
+        if (!_hasDate)
+        {
+            // TODO - Error handling with dialog
+            Console.WriteLine("Need Data to initialize _helper");
+            return;
+        }
+        
+        var hasInputData = SaveInputData();
+        if (!hasInputData)
+        {
+            // TODO - Error handling with dialog
+            Console.WriteLine("Missing required data!");
+            return;
+        }
 
+        var isDataInitialized = _helper.InitializeFieldsFromSavedTexts();
+        if (!isDataInitialized)
+        {
+            // TODO - Error handling with dialog
+            Console.WriteLine("Required Data was not properly initialized!");
+            return;
+        }
+        
+        var businessDays = _helper.CurrentMonth.BusinessDays;
+        var hourlyIncome = _helper.CalculateHourlyIncome();
+        var ptoHourValue = _helper.CalculatePtoHourValue();
+        var expectedIncome = _helper.CalculateExpectedMonthlyIncome();
+        
+        // TODO - Update UI with Results
+        HourlyRateTextBox.Text = hourlyIncome.ToString("C");
+        MonthlyWorkingHoursLabel.Content = $"Total Working Hours in {_helper.CurrentMonth.MonthDateTime:MMMM}";
+        MonthlyWorkingHoursResult.Text = _helper.CurrentMonth.MonthlyWorkingHours.ToString("D");
+        MonthlyWorkingDaysResult.Text = _helper.CurrentMonth.WorkingDays.ToString("D");
+        PtoHourlyRateTextBox.Text = ptoHourValue.ToString("C");
+        ExpectedIncomeLabel.Content = $"The expected income for {_helper.CurrentMonth.MonthDateTime:MMMM} is {expectedIncome:C}";
+    }
+    
     public void UpdateMonthWorkingHoursLabel(object sender, DatePickerSelectedValueChangedEventArgs args)
     {
-        if (string.IsNullOrWhiteSpace(Income.Text))
-        {
-            Console.WriteLine("No Income data");
-            return;
-        }
+        var parsedDateTime = DateTimeOffsetParser(args.NewDate);
+        _helper = new PtoHelper(parsedDateTime.Year, parsedDateTime.Month);
+        _hasDate = true;
 
-        if (string.IsNullOrWhiteSpace(DailyHours.Text))
-        {
-            Console.WriteLine("No Daily Hours data");
-            return;
-        }
+        // var businessDays = helper.CurrentMonth.BusinessDays; 
+        //Month.CalculateNumberOfBusinessDaysInMonth(parsedDateTime.Year, parsedDateTime.Month);
+        // var hourlyIncome = (double) monthlyIncome / (dailyHours * businessDays);
+        // var ptoHourValue = (double) monthlyIncome / ptoMonthlyHours;
 
-        if (string.IsNullOrWhiteSpace(PtoDays.Text))
-        {
-            Console.WriteLine("No PTO Day data");
-            return;
-        }
-
-        if (string.IsNullOrWhiteSpace(PtoMonthlyHours.Text))
-        {
-            Console.WriteLine("No PTO Monthly Hours data");
-            return;
-        }
-        
-        var monthlyIncome = int.Parse(SanitizeMaskedInput(Income.Text));
-        var dailyHours = int.Parse(SanitizeMaskedInput(DailyHours.Text));
-        var ptoDays = int.Parse(SanitizeMaskedInput(PtoDays.Text));
-        var ptoMonthlyHours = int.Parse(SanitizeMaskedInput(PtoMonthlyHours.Text));
-        
-        var month = DateTimeOffsetParser(args.NewDate);
-        // var dateTimeMonth = new DateTime(month.Year, month.Month, 1);
-        
-        var daysInMonth = DateTime.DaysInMonth(month.Year, month.Month);
-        var businessDays = CalculateNumberOfBusinessDaysInMonth(month.Year, month.Month);
-        var hourlyIncome = (double) monthlyIncome / (dailyHours * businessDays);
-        var ptoHourValue = (double) monthlyIncome / ptoMonthlyHours;
-        
-        HourlyRateTextBox.Text = hourlyIncome.ToString("C");
-        MonthlyWorkingHoursLabel.Content = $"Total Working Hours in {month.ToString("MMMM")}";
-        MonthlyWorkingHoursResult.Text = (businessDays * dailyHours).ToString("D");
-        MonthlyWorkingDaysResult.Text = (businessDays - ptoDays).ToString("D");
-        PtoHourlyRateTextBox.Text = ptoHourValue.ToString("C");
-        // UpdateSelectedMonthLabel(month.ToString("MMMM"));
     }
 
-    private void UpdateSelectedMonthLabel(string month)
-    {
-        MonthlyWorkingHoursLabel.Content = $"{month} Working Hours:";
-    }
-
-    public int CalculateMonthWorkingHours(int month)
-    {
-        
-        return 0;
-    }
-
-    private DateTimeOffset DateTimeOffsetParser(DateTimeOffset? dateTime)
+    private static DateTimeOffset DateTimeOffsetParser(DateTimeOffset? dateTime)
     {
         if (dateTime == null)
         {
-            // TODO - Error Handling
+            // TODO - Error Handling with Dialog
             return DateTimeOffset.Now;
         }
         
@@ -112,23 +97,5 @@ public partial class MainWindow : Window
     private string SanitizeMaskedInput(string input)
     {
         return input.Trim().Replace("_", "");
-    }
-
-    private int CalculateNumberOfBusinessDaysInMonth(int year, int month)
-    {
-        var monthDateTime = new DateTime(year, month, 1);
-        var businessDays = 0;
-        for (var i=1; i <= DateTime.DaysInMonth(year, month); i++)
-        {
-            var isWeekend = monthDateTime.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday;
-            monthDateTime = monthDateTime.AddDays(1);
-            if (isWeekend)
-            {
-                continue;
-            }
-            businessDays++;
-        }
-        
-        return businessDays;
     }
 }
