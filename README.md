@@ -6,7 +6,7 @@ your income for said month.
 ## Why?
 
 Some companies use a fixed amount of hours to calculate your PTO, while your monthly working hours may vary.
-This variation happens due to the number of business days changing each month, while your income has a fixed monthly value.
+This variation happens due to the number of business days changing each month, while your income is fixed.
 
 > Example:
 > 
@@ -15,7 +15,7 @@ This variation happens due to the number of business days changing each month, w
 > While on May 2024 you had to work 23 business days for the same \$500, on a \$2.72 hourly rate.
  
 This variation in the hourly rate is what can cause the total income difference, when the PTO hours don't use the same 
-hourly rate.
+value.
 
 ## How
 
@@ -48,6 +48,12 @@ The following fields will be automatically filled by the software:
 3. Your PTO Hourly rate
    1. Will display the value of your hourly rate while taking a PTO.
    2. This calculation is based on the amount of daily working hours and how many monthly hours are considered for the PTO calculation.
+4. Total Working Hours in `month` 
+   1. Will display the total of working hours you are expected to do on said month.
+   2. It adjusts accordingly to your PTO days count.
+5. The Expected income text
+   1. Will display the expected income for said `month`. 
+   2. It calculates the sum of your regular working hours with the pto hours.
 
 ---
 
