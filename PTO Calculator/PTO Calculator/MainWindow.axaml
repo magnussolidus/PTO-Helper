@@ -1,0 +1,149 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        x:Class="PTO_Calculator.MainWindow"
+        Title="PTO Helper"
+        SizeToContent="WidthAndHeight"
+        WindowState="Normal">
+    <Grid 
+        ShowGridLines="True" 
+        Margin="5"
+        ColumnDefinitions="250, Auto, Auto"
+        RowDefinitions="50, Auto, Auto, Auto, Auto, Auto,Auto,Auto,Auto">
+        <Border 
+            Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
+            CornerRadius="8" 
+            Background="LightCoral">
+            <TextBlock 
+                FontSize="24" 
+                TextAlignment="Center"
+                Text="PTO Helper">
+            </TextBlock>
+        </Border>
+        
+        <TextBlock
+            Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
+            TextAlignment="Center"
+            VerticalAlignment="Bottom"
+            Margin="5">
+            A simple software to help you calculate if the PTO is gonna affect your payment
+        </TextBlock>
+        
+        <Label 
+            Grid.Row="1" Grid.Column="0"
+            Margin="5">
+            Your Monthly Income:
+        </Label>
+        <MaskedTextBox 
+            Grid.Row="2" Grid.Column="0"
+            Name="Income"
+            Margin="5"
+            Mask="###000"/>
+        
+        <Label 
+            Grid.Row="1" Grid.Column="1"
+            Margin="5">
+            Daily Working Hours
+        </Label>
+        <MaskedTextBox 
+            Grid.Row="2"  Grid.Column="1"
+            Name="DailyHours"
+            Margin="5"
+            Mask="#0"
+            Text="8"/>
+        
+        <Label 
+            Grid.Row="3" Grid.Column="1"
+            Margin="5">
+            PTO Days Count
+        </Label>
+        <MaskedTextBox
+            Grid.Row="4" Grid.Column="1"
+            Name="PtoDays"
+            Margin="5"
+            Mask="##0"/>
+        
+        <Label
+            Grid.Row="3" Grid.Column="2"
+            Name="MonthlyWorkingHoursLabel"
+            Margin="5">
+            Monthly Working Hours:
+        </Label>
+        <TextBox
+            Grid.Row="4" Grid.Column="2"
+            IsReadOnly="true"
+            Name="MonthlyWorkingHoursResult"
+            Margin="5">
+            Result goes Here
+        </TextBox>
+        
+        <Label
+            Grid.Row="3" Grid.Column="0"
+            Name="MonthWorkingDaysLabel"
+            Margin="5">
+            Monthly Working Days:
+        </Label>
+        <TextBox
+            Grid.Row="4" Grid.Column="0"
+            IsReadOnly="true"
+            Margin="5"
+            Name="MonthlyWorkingDaysResult">
+            Result goes Here
+        </TextBox>
+        
+        <Label 
+            Grid.Row="1" Grid.Column="2"
+            Margin="5">
+            Pick your Month:
+        </Label>
+        <DatePicker 
+            Grid.Row="2" Grid.Column="2"
+            DayVisible="False"
+            SelectedDateChanged="UpdateMonthWorkingHoursLabel"
+            Margin="5">
+        </DatePicker>
+        
+        <Label Grid.Row="5" Grid.Column="1"
+               Margin="5">
+            Your PTO Hourly Rate:
+        </Label>
+        <TextBox Grid.Row="6" Grid.Column="1"
+                 Margin="5"
+                 Name="PtoHourlyRateTextBox"
+                 IsReadOnly="True">
+            Value Goes Here
+        </TextBox>
+        
+        <Label Grid.Row="5" Grid.Column="0"
+               Margin="5">
+            Your Hourly Rate:
+        </Label>
+        <TextBox Grid.Row="6" Grid.Column="0"
+                 Margin="5"
+                 Name="HourlyRateTextBox"
+                 IsReadOnly="True">
+            Value Goes Here
+        </TextBox>
+        
+        <Label Grid.Row="5" Grid.Column="2"
+               Margin="5">
+            Monthly Hours considered for PTO :
+        </Label>
+        <MaskedTextBox Grid.Row="6" Grid.Column="2"
+                       Margin="5"
+                       Mask="000"
+                       Name="PtoMonthlyHours"
+                       Text="0">
+        </MaskedTextBox>
+        
+        <Button 
+            Grid.Row="8" Grid.Column="0" 
+            Margin="5"
+            Background="Salmon"
+            Click="Plem">
+            Calculate
+        </Button>
+    </Grid>
+</Window>
