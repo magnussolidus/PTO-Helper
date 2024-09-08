@@ -57,9 +57,13 @@ The following fields will be automatically filled by the software:
    1. Will display the expected income for said `month`. 
    2. It calculates the sum of your regular working hours with the pto hours.
 
+# Downloads
+
+You can download the executables for your system [from here](/resources/Binaries).
+
 ---
 
-# Requirements
+# Requirements to Run the Project
 
 * [.NET 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
 * [AvaloniaUI](https://avaloniaui.net/)
@@ -76,6 +80,7 @@ This software is distributed under the [GNU GPL v3](https://www.gnu.org/licenses
 - [ ] Cleanup the Code
 - [ ] Implement better Error Handling
 - [ ] Add dialogs for Error Handling
-- [ ] Provide binaries for Windows
-- [ ] Provide binaries for Linux
+- [x] Provide binaries for Windows
+- [x] Provide binaries for Linux
+- [x] Provide binaries for OS X
 
