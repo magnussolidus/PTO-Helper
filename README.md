@@ -5,6 +5,10 @@ your income for said month.
 
 ![PTO Helper software screenshot](/resources/software.png)
 
+## Downloads
+
+You can download the executables for your system [from here](/resources/Binaries/downloads.md).
+
 ## Why?
 
 Some companies use a fixed amount of hours to calculate your PTO, while your monthly working hours may vary.
@@ -57,9 +61,6 @@ The following fields will be automatically filled by the software:
    1. Will display the expected income for said `month`. 
    2. It calculates the sum of your regular working hours with the pto hours.
 
-# Downloads
-
-You can download the executables for your system [from here](/resources/Binaries).
 
 ---
 
