@@ -7,7 +7,7 @@ your income for said month.
 
 ## Downloads
 
-You can download the executables for your system [from here](/resources/Binaries/downloads.md).
+You can download the executables for your system [from here](/resources/Binaries/).
 
 ## Why?
 
