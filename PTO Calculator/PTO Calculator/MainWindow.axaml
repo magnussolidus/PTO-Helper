@@ -63,6 +63,7 @@
         </Label>
         <DatePicker 
             Grid.Row="2" Grid.Column="2"
+            Name="DatePicker"
             DayVisible="False"
             SelectedDateChanged="UpdateMonthWorkingHoursLabel"
             Margin="5">
@@ -145,7 +146,7 @@
                        Margin="5"
                        Mask="000"
                        Name="PtoMonthlyHours"
-                       Text="0">
+                       Text="">
         </MaskedTextBox>
         
         <!-- 4th row -->
@@ -160,8 +161,22 @@
             Grid.Row="7" Grid.Column="2" 
             Margin="5"
             Background="Salmon"
+            ClickMode="Release"
             Click="Calculate">
             Calculate
         </Button>
+        
+        <!-- 5th row -->
+        
+        <Label 
+            Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="3"
+            Margin="5"
+            Name="ErrorLabel"
+            Background="DarkRed"
+            Foreground="White"
+            VerticalAlignment="Center"
+            Focusable="False">
+            Test
+        </Label>
     </Grid>
 </Window>

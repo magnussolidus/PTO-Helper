@@ -4,50 +4,63 @@ namespace PTO_Calculator;
 
 public class PtoHelper(int year, int month)
 {
-    public decimal MonthlyIncome { get; set; }
-    public int DailyWorkingHours { get; set; }
-    public Month CurrentMonth { get; set; } = new(year, month);
-    public int PtoDays { get; set; }
-    public int PtoMonthlyHours { get; set; }
-    private string[] ValidatedText { get; set; } = new string[sizeof(TextValidationEnum)];
+    private decimal MonthlyIncome { get; set; }
+    private int DailyWorkingHours { get; set; }
+    public Month CurrentMonth { get; } = new(year, month);
+    private int PtoDays { get; set; }
+    private int PtoMonthlyHours { get; set; }
+    private string[] ValidatedText { get; } = new string[sizeof(FieldEnum)];
+    private string _errorMessage = string.Empty;
 
-    public bool InsertText(string text, TextValidationEnum textSource)
+    public bool InsertText(string text, FieldEnum textSource)
     {
         return SaveSanitizedText(text, textSource);
     }
 
-    public string ReturnValidatedText(TextValidationEnum textSource) =>  textSource switch
+    public void ResetErrorMessage()
     {
-        TextValidationEnum.Income => ValidatedText[0],
-        TextValidationEnum.DailyHours => ValidatedText[1],
-        TextValidationEnum.PtoDays => ValidatedText[2],
-        TextValidationEnum.PtoMonthlyHours => ValidatedText[3],
-        _ => throw new ArgumentOutOfRangeException(nameof(textSource), textSource, null)
-    };
+        _errorMessage = string.Empty;
+    }
 
-    private bool SaveSanitizedText(string input, TextValidationEnum textField)
+    public string GetErrorMessage()
     {
+        _errorMessage = $"{_errorMessage.Trim()}";
+        return _errorMessage;
+    }
+    
+    private bool SaveSanitizedText(string input, FieldEnum textField)
+    {
+        input = input.Trim().Replace("_", "");
         if (string.IsNullOrEmpty(input))
         {
+            _errorMessage = $"{_errorMessage}{Enum.GetName(textField)} | ";
             return false;
         }
         
-        ValidatedText[(int)textField] = input.Trim().Replace("_", ""); 
+        ValidatedText[(int)textField] = input; 
         return true;
     }
 
     public bool InitializeFieldsFromSavedTexts()
     {
-        var isIncomeParsed = decimal.TryParse(ValidatedText[(int)TextValidationEnum.Income], out var income);
-        var isDailyHoursParsed = int.TryParse(ValidatedText[(int)TextValidationEnum.DailyHours], out var dailyHours);
-        var isPtoDaysParsed = int.TryParse(ValidatedText[(int)TextValidationEnum.PtoDays], out var ptoDays);
-        var isPtoMonthlyParsed = int.TryParse(ValidatedText[(int)TextValidationEnum.PtoMonthlyHours], out var ptoMonthly);
+        var isIncomeParsed = decimal.TryParse(ValidatedText[(int)FieldEnum.Income], out var income);
+        var isDailyHoursParsed = int.TryParse(ValidatedText[(int)FieldEnum.DailyHours], out var dailyHours);
+        var isPtoDaysParsed = int.TryParse(ValidatedText[(int)FieldEnum.PtoDays], out var ptoDays);
+        var isPtoMonthlyParsed = int.TryParse(ValidatedText[(int)FieldEnum.PtoMonthlyHours], out var ptoMonthly);
 
         if (!isIncomeParsed || !isDailyHoursParsed || !isPtoDaysParsed || !isPtoMonthlyParsed)
         {
+            _errorMessage = "Failed to parse the input data. Please try again.";
             return false;
         }
         
+        if (ptoMonthly <= 0)
+        {
+            _errorMessage = "The amount of PTO Monthly Hours must be greater than zero!";
+            return false;
+        }
+
+
         MonthlyIncome = income;
         DailyWorkingHours = dailyHours;
         PtoDays = ptoDays;
@@ -57,11 +70,6 @@ public class PtoHelper(int year, int month)
         CurrentMonth.MonthlyWorkingHours = DailyWorkingHours * CurrentMonth.WorkingDays;
 
         return true;
-    }
-
-    private static bool IsTextFieldValid(string field)
-    {
-        return !string.IsNullOrWhiteSpace(field);
     }
 
     public decimal CalculatePtoHourValue()
